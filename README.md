@@ -1,0 +1,1 @@
+The SecondScreen Support Library provides additional functionality for SecondScreen on specific versions of Android.  There is normally no need to install this unless the SecondScreen app instructs you to.

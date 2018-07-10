@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+
+ext {
+    SUPPORT_LIBRARY_VERSION = "27.1.1"
+}
+
+repositories {
+    google()
+}
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
+
+    defaultConfig {
+        applicationId "com.farmerbb.secondscreen.support"
+        minSdkVersion 23
+
+        //noinspection OldTargetApi
+        targetSdkVersion 22
+
+        versionCode 1
+        versionName "1.0"
+
+        resConfigs "en"
+    }
+
+    signingConfigs {
+        release {
+            if(System.getenv("KSTOREFILE") != null)
+                storeFile file(System.getenv("KSTOREFILE"))
+
+            storePassword System.getenv("KSTOREPWD")
+            keyAlias System.getenv("KEYALIAS")
+            keyPassword System.getenv("KEYPWD")
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            manifestPlaceholders = [appName: "@string/app_name_debug"]
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            manifestPlaceholders = [appName: "@string/app_name"]
+
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "${project.parent.name.replace('-', ' ')}-${defaultConfig.versionName}.apk"
+                }
+            }
+        }
+    }
+
+    flavorDimensions "default"
+
+    sourceSets {
+        main {
+            java { srcDirs('src/main/java', 'src/support/java') }
+            res { srcDirs('src/main/res') }
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+        }
+    }
+
+}
+
+dependencies {
+    implementation "com.android.support:support-annotations:${SUPPORT_LIBRARY_VERSION}"
+}
