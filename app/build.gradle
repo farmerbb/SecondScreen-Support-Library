@@ -1,28 +1,29 @@
 apply plugin: 'com.android.application'
 
-ext {
-    SUPPORT_LIBRARY_VERSION = "27.1.1"
-}
-
 repositories {
     google()
 }
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 29
+    buildToolsVersion "28.0.3"
 
     defaultConfig {
         applicationId "com.farmerbb.secondscreen.support"
         minSdkVersion 23
 
         //noinspection OldTargetApi
-        targetSdkVersion 22
+        targetSdkVersion 27
 
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
 
         resConfigs "en"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     signingConfigs {
@@ -70,5 +71,5 @@ android {
 }
 
 dependencies {
-    implementation "com.android.support:support-annotations:${SUPPORT_LIBRARY_VERSION}"
+    implementation 'androidx.annotation:annotation:1.1.0'
 }

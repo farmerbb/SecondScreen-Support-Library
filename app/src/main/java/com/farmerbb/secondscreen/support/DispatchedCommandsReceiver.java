@@ -28,7 +28,7 @@ public class DispatchedCommandsReceiver extends BroadcastReceiver {
 
         if(intent.hasExtra("screen_orientation")) {
             SupportNotificationService.setScreenOrientation(intent.getIntExtra("screen_orientation", -1));
-            context.startService(serviceIntent);
+            SupportUtils.startService(context, serviceIntent);
         }
 
         if(intent.hasExtra("commands"))
