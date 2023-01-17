@@ -16,6 +16,9 @@
 package com.farmerbb.secondscreen.support;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 
 public class SupportNotificationService extends RotationLockService {
 
@@ -30,7 +33,20 @@ public class SupportNotificationService extends RotationLockService {
         Notification.Builder builder = new Notification.Builder(this)
                 .setSmallIcon(R.drawable.ic_screen_lock_rotation)
                 .setContentText(getString(R.string.locking_screen_orientation))
-                .setPriority(Notification.PRIORITY_MIN);
+                .setPriority(Notification.PRIORITY_MIN)
+                .setOngoing(true)
+                .setShowWhen(false);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            CharSequence name = getString(R.string.locking_screen_orientation);
+            int importance = NotificationManager.IMPORTANCE_MIN;
+
+            String id = "channel_id";
+            manager.createNotificationChannel(new NotificationChannel(id, name, importance));
+
+            builder = builder.setChannelId(id);
+        }
 
         startForeground(1, builder.build());
     }
